@@ -25,8 +25,8 @@ export default function Hero() {
               </div>
               
               <h1 className="text-5xl lg:text-8xl font-bold text-white mb-8 tracking-tight leading-[1.05]">
-                Make wet gas <br />
-                <span className="text-spinecho-accent">measurable.</span>
+                Evolution <br />
+                <span className="text-spinecho-accent">in measurement.</span>
               </h1>
               
               <p className="text-lg lg:text-xl text-spinecho-slate mb-12 max-w-md leading-relaxed">
