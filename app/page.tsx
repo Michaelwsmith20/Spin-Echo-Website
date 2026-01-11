@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Problem from "../components/Problem";
 import Advantage from "../components/Advantage";
-import ProductionReady from "../components/ProductionReady"; // Ensure import
+import ProductionReady from "../components/ProductionReady";
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -12,7 +12,8 @@ export default function Home() {
       <Hero />
       <Problem />
       <Advantage />
-      <ProductionReady /> {/* THIS ENABLES THE SECTION */}
+      {/* This MUST be here to show the field photo at the bottom */}
+      <ProductionReady /> 
       <Footer />
     </main>
   );

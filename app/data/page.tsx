@@ -1,4 +1,5 @@
 "use client";
+
 import React from 'react';
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -26,7 +27,7 @@ export default function DataPage() {
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-8 tracking-tight leading-none">The Measurement Layer for <br /><span className="text-spinecho-accent">Modern Optimization.</span></h1>
           <p className="text-spinecho-accent font-mono text-sm uppercase tracking-[0.3em] mb-8 italic">Better decisions start with better measurement.</p>
-          <p className="text-lg md:text-xl lg:text-2xl text-spinecho-slate max-w-4xl leading-relaxed">The Spin Echo flow meter produces high frequency, phase resolved measurement data directly at the wellhead.</p>
+          <p className="text-lg md:text-xl lg:text-2xl text-spinecho-slate max-w-4xl leading-relaxed text-left">The Spin Echo flow meter produces high frequency, phase resolved measurement data directly at the wellhead.</p>
         </div>
       </section>
 
@@ -36,7 +37,8 @@ export default function DataPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {capabilities.map((item, index) => (
               <div key={index} className="glass-panel p-8 border-white/5 bg-[#0F1115] hover:border-spinecho-accent/30 transition-all">
-                <div className="text-spinecho-accent font-mono text-xs mb-6 italic">0{index + 1} //</div>
+                {/* FIXED: Wrapped // in braces to prevent Vercel crash */}
+                <div className="text-spinecho-accent font-mono text-xs mb-6 italic">0{index + 1} {"//"}</div>
                 <h3 className="text-lg font-bold text-white mb-4 leading-tight">{item.title}</h3>
                 <p className="text-spinecho-slate text-sm leading-relaxed">{item.description}</p>
               </div>
@@ -49,11 +51,12 @@ export default function DataPage() {
         <div className="max-w-7xl mx-auto">
           <h3 className="text-white font-bold text-2xl mb-4">Live Interface Preview</h3>
           <p className="text-spinecho-slate text-sm max-w-2xl mb-12 italic">The dashboard below illustrates how Spin Echo data is exposed in real time for monitoring, diagnostics, and external integration.</p>
-          <div className="rounded-3xl border border-white/10 overflow-hidden shadow-2xl bg-black/20"><FlowmeterDashboard /></div>
+          <div className="rounded-3xl border border-white/10 overflow-hidden shadow-2xl bg-black/20">
+            <FlowmeterDashboard />
+          </div>
         </div>
       </section>
 
-      {/* RESTORED FULL CTA */}
       <section className="py-32 px-6 bg-spinecho-dark border-t border-white/5 text-center">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 tracking-tight uppercase">Building Wellhead Optimization Software?</h2>
