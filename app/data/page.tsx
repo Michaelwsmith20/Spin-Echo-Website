@@ -45,16 +45,16 @@ export default function DataPage() {
           <p className="text-spinecho-accent font-mono text-sm uppercase tracking-[0.3em] mb-8 italic">
             Better decisions start with better measurement.
           </p>
-          <p className="text-xl lg:text-2xl text-spinecho-slate max-w-4xl leading-relaxed">
+          <p className="text-xl lg:text-2xl text-spinecho-slate max-w-4xl leading-relaxed text-left">
             The Spin Echo flow meter produces high frequency, phase resolved measurement data directly at the wellhead. 
-            By measuring the physical response of the flowing fluids themselves, rather than relying on indirect correlations, 
+            By measuring the physical response of the flowing fluids themselves, rather than relying on indirect correlations or separation based inference, 
             we deliver stable, low noise data across changing flow regimes.
           </p>
         </div>
       </section>
 
       {/* 2. CAPABILITIES GRID */}
-      <section className="pb-24 px-6">
+      <section className="pb-24 px-6 text-left">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <h2 className="text-white font-bold text-3xl tracking-tight">What High Fidelity Measurement Enables</h2>
@@ -62,7 +62,7 @@ export default function DataPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {capabilities.map((item, index) => (
               <div key={index} className="glass-panel p-8 border-white/5 bg-[#0F1115] hover:border-spinecho-accent/30 transition-all duration-500">
-                <div className="text-spinecho-accent font-mono text-xs mb-6">0{index + 1} //</div>
+                <div className="text-spinecho-accent font-mono text-xs mb-6">0{index + 1} {"//"}</div>
                 <h3 className="text-lg font-bold text-white mb-4 leading-tight">{item.title}</h3>
                 <p className="text-spinecho-slate text-sm leading-relaxed">{item.description}</p>
               </div>
@@ -72,40 +72,42 @@ export default function DataPage() {
       </section>
 
       {/* 3. DASHBOARD SECTION (Illustrative Only) */}
-      <section className="py-24 px-6 bg-[#050608] border-t border-white/5">
+      <section className="py-24 px-6 bg-[#050608] border-t border-white/5 text-left">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-12 text-left">
+          <div className="mb-12">
             <h3 className="text-white font-bold text-2xl mb-4">Live Interface Preview</h3>
-            <p className="text-spinecho-slate text-sm max-w-2xl italic">
+            <p className="text-spinecho-slate text-sm max-w-2xl italic leading-relaxed">
               The dashboard below illustrates how Spin Echo data is exposed in real time for monitoring, diagnostics, and integration into external analytics and control platforms.
             </p>
           </div>
-          <div className="rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+          <div className="rounded-3xl border border-white/10 overflow-hidden shadow-2xl bg-black/20">
             <FlowmeterDashboard />
           </div>
         </div>
       </section>
 
-      {/* 4. SOFTWARE PARTNER CTA */}
+      {/* 4. RESTORED FULL SOFTWARE PARTNER CTA */}
       <section className="py-32 px-6 bg-spinecho-dark border-t border-white/5">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl lg:text-5xl font-bold text-white mb-8 tracking-tight">Building Wellhead Optimization Software?</h2>
-          <p className="text-lg text-spinecho-slate mb-12 leading-relaxed">
+          <p className="text-lg lg:text-xl text-spinecho-slate mb-12 leading-relaxed">
             If you develop wellhead software, production optimization platforms, or digital oilfield solutions, 
             Spin Echo provides a differentiated measurement layer that can materially improve your product performance. 
-            Our flow meters deliver high fidelity data directly at the source, enabling more accurate models and stable control logic 
-            without changes to your existing software architecture.
+            Our flow meters deliver higher fidelity, phase resolved data directly at the source, enabling more accurate models, 
+            more stable control logic, and clearer operational insight &mdash; without changes to your existing software architecture.
           </p>
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-8">
             <button 
               onClick={openModal}
-              className="px-12 py-5 bg-spinecho-accent text-white font-bold rounded-xl shadow-xl shadow-spinecho-accent/20 hover:bg-blue-600 transition-all text-lg uppercase tracking-widest"
+              className="px-12 py-5 bg-spinecho-accent text-black font-black uppercase text-xs tracking-[0.3em] rounded-xl hover:bg-white transition-all shadow-xl shadow-spinecho-accent/20"
             >
               Discuss a Technical Partnership
             </button>
-            <p className="text-[10px] font-mono text-spinecho-slate uppercase tracking-[0.3em]">
-              APIs and data interfaces available for integration.
-            </p>
+            <div className="flex items-center gap-3 text-spinecho-slate/60 font-mono text-[10px] uppercase tracking-[0.3em]">
+               <div className="w-8 h-px bg-white/10" />
+               APIs and data interfaces available for integration
+               <div className="w-8 h-px bg-white/10" />
+            </div>
           </div>
         </div>
       </section>
