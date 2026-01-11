@@ -9,7 +9,7 @@ export default function Hero() {
   return (
     <>
       <section className="relative min-h-screen flex items-center pt-24 px-6 overflow-hidden bg-spinecho-dark">
-        {/* Background Ambience */}
+        {/* Background Ambience - Cyan Glow */}
         <div className="absolute top-[20%] right-[-5%] w-[600px] h-[600px] bg-spinecho-accent/10 rounded-full blur-[150px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto w-full">
@@ -25,22 +25,20 @@ export default function Hero() {
               </div>
               
               <h1 className="text-5xl lg:text-8xl font-bold text-white mb-8 tracking-tight leading-[1.05]">
-                Evolution <br />
-                <span className="text-spinecho-accent"> in flow measurement.</span>
+                Make wet gas <br />
+                <span className="text-spinecho-accent">measurable.</span>
               </h1>
               
               <p className="text-lg lg:text-xl text-spinecho-slate mb-12 max-w-md leading-relaxed">
                 Physics based NMR flow metering for high GVF and multiphase environments. 
                 Live fidelity where legacy meters fail.
               </p>
-              
-              {/* Button removed from here to declutter the text side */}
             </div>
 
             {/* Right Column: Hardware + Visual Trigger */}
             <div className="lg:col-span-7 relative group">
               
-              {/* NEW: Repositioned Solid Cyan Button */}
+              {/* Repositioned Solid Cyan Button */}
               <div className="absolute top-0 right-0 z-20 -mt-6 lg:-mr-6 animate-in fade-in slide-in-from-top-4 duration-1000">
                 <button 
                   onClick={() => setIsExplainerOpen(true)}
@@ -55,11 +53,11 @@ export default function Hero() {
                 </button>
               </div>
 
-              {/* Hardware Render */}
+              {/* Hardware Render - Using the Corrected Direct Link */}
               <div className="relative z-10">
                 <img 
-                  src="/meter.png" 
-                  alt="Spin Echo NMR Flowmeter Render" 
+                  src="https://i.postimg.cc/pXLwv0TK/meter.png" 
+                  alt="Spin Echo NMR Flowmeter Silver Render" 
                   className="w-full h-auto drop-shadow-[0_35px_60px_rgba(6,182,212,0.3)] transition-transform duration-700 group-hover:scale-[1.02]"
                 />
                 {/* Subtle reflection floor */}
@@ -71,7 +69,7 @@ export default function Hero() {
         </div>
       </section>
 
-      {/* The Technical Briefing Component */}
+      {/* Technical Briefing Slider */}
       <ExplainerModal isOpen={isExplainerOpen} onClose={() => setIsExplainerOpen(false)} />
     </>
   );
