@@ -12,6 +12,7 @@ import {
   Download, Box
 } from "lucide-react";
 
+// Spin Echo Metrology Theme - Bright Science Cyan
 const THEME = {
   accent: "#06B6D4",
   oil: "#FFFFFF",
@@ -25,6 +26,9 @@ const THEME = {
   grid: "rgba(255,255,255,0.05)"
 };
 
+// =====================
+// DATA ENGINE
+// =====================
 function generateSeries() {
   const out = [];
   const now = new Date();
@@ -36,6 +40,7 @@ function generateSeries() {
     const water = Math.max(0, 180 + 40 * Math.sin(i / 6) + (Math.random() - 0.5) * 40);
     const nglBase = 80 + 20 * Math.sin(i / 10) + (Math.random() - 0.5) * 10;
     const qTotal = oil + gas + water + nglBase;
+    
     const fP = 0.36 + 0.06 * Math.sin(i / 37);
     const fB = 0.28 + 0.04 * Math.cos(i / 29);
     const fPe = 0.22 + 0.03 * Math.sin(i / 41 + 1);
@@ -74,7 +79,7 @@ function MetrologyKpi({ icon: Icon, label, value, unit, alert = false, small = f
         <Icon size={14} className="text-spinecho-accent opacity-70" />
         <span className="text-[9px] font-mono text-spinecho-slate uppercase tracking-widest leading-none">{label}</span>
       </div>
-      <div className="flex items-baseline gap-1">
+      <div className="flex items-baseline gap-1 text-left">
         <span className={`${small ? 'text-lg' : 'text-2xl'} font-bold font-mono text-white tabular-nums leading-none`}>{value}</span>
         <span className="text-[10px] font-mono text-spinecho-slate uppercase leading-none">{unit}</span>
       </div>
@@ -115,6 +120,8 @@ export default function FlowmeterDashboard() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-white pb-8">
+      
+      {/* 1. INTERFACE TOOLBAR */}
       <div className="flex flex-wrap items-center justify-between gap-4 p-6 glass-panel border-white/10 bg-[#0F1115]">
         <div className="flex items-center gap-6">
           <div className="text-left">
@@ -126,6 +133,7 @@ export default function FlowmeterDashboard() {
             {wells.map(w => <option key={w.id} value={w.id} className="bg-[#0F1115]">{w.id} - {w.basin}</option>)}
           </select>
         </div>
+        
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded border border-white/5">
             <span className="text-[10px] font-mono text-spinecho-slate uppercase">Stacked View</span>
@@ -139,6 +147,7 @@ export default function FlowmeterDashboard() {
         </div>
       </div>
 
+      {/* 2. KPI GRID */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 text-left">
         <MetrologyKpi icon={Gauge} label="Total Flow" value={latest.qTotal} unit="sm3/h" />
         <MetrologyKpi icon={Flame} label="Gas Rate" value={latest.gas} unit="sm3/h" />
@@ -150,7 +159,9 @@ export default function FlowmeterDashboard() {
         <MetrologyKpi icon={Thermometer} label="Temperature" value={latest.T} unit="°C" />
       </div>
 
+      {/* 3. MAIN ANALYTICS ROW */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 text-left">
+        
         <div className="xl:col-span-2 glass-panel p-8 bg-[#0F1115]">
           <div className="flex justify-between items-center mb-10">
             <h3 className="font-bold text-xs uppercase tracking-[0.2em] text-spinecho-accent">Phase Resolved Flow Dynamics</h3>
@@ -185,15 +196,17 @@ export default function FlowmeterDashboard() {
               )}
             </ResponsiveContainer>
           </div>
-          <div className="h-[180px] mt-12 pt-10 border-t border-white/5">
+          <div className="h-[180px] mt-12 pt-10 border-t border-white/5 text-left">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} vertical={false} />
                 <XAxis dataKey="time" hide />
-                <YAxis domain={[0, 1]} fontSize={10} stroke="#475569" />
-                <Line type="monotone" dataKey="gvf" name="GVF" stroke={THEME.accent} dot={false} strokeWidth={2} />
-                <Line type="monotone" dataKey="wlr" name="WLR" stroke={THEME.water} dot={false} strokeWidth={2} />
-                <ReferenceLine y={0.8} label={{ value: 'GVF LIMIT', position: 'insideTopRight', fill: '#475569', fontSize: 9 }} stroke="rgba(239, 68, 68, 0.4)" strokeDasharray="5 5" />
+                <YAxis domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} tickFormatter={(val) => `${val * 100}%`} fontSize={10} stroke="#475569" axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#0F1115', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                <Legend iconType="circle" align="right" verticalAlign="top" wrapperStyle={{ fontSize: '10px', textTransform: 'uppercase', fontFamily: 'monospace', paddingBottom: '20px' }} />
+                <Line type="monotone" dataKey="gvf" name="GVF %" stroke={THEME.accent} dot={false} strokeWidth={2} />
+                <Line type="monotone" dataKey="wlr" name="WLR %" stroke={THEME.water} dot={false} strokeWidth={2} />
+                <ReferenceLine y={0.8} label={{ value: 'GVF LIMIT', position: 'insideTopRight', fill: '#ef4444', fontSize: 9, fontWeight: 'bold' }} stroke="#ef4444" strokeDasharray="5 5" />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -201,7 +214,7 @@ export default function FlowmeterDashboard() {
 
         <div className="space-y-6">
           <div className="glass-panel p-6 bg-[#0F1115] text-left h-fit">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 flex items-center gap-3 text-left">
               <AlertTriangle size={14} className="text-yellow-500" /> Operational Alerts
             </h3>
             <div className="space-y-3">
@@ -209,18 +222,18 @@ export default function FlowmeterDashboard() {
                 { level: "High", msg: "Sudden GVF step change (>15%)", time: "14:35" },
                 { level: "Medium", msg: "Sensor drift detected on T probe", time: "09:10" }
               ].map((a, i) => (
-                <div key={i} className="p-4 bg-white/[0.02] border border-white/5 rounded-lg flex justify-between items-start">
+                <div key={i} className="p-4 bg-white/[0.02] border border-white/5 rounded-lg flex justify-between items-start text-left">
                   <div>
-                    <span className={`text-[8px] font-mono px-2 py-0.5 rounded uppercase ${a.level === 'High' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}`}>{a.level}</span>
+                    <span className={`text-[8px] font-mono px-2 py-0.5 rounded uppercase ${a.level === 'High' ? 'bg-red-500/20 text-red-400 border border-red-500/20' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/20'}`}>{a.level}</span>
                     <p className="text-xs mt-3 text-white font-medium">{a.msg}</p>
-                    <p className="text-[9px] font-mono text-spinecho-slate mt-1 uppercase">{a.time} {"//"} Logged</p>
+                    <p className="text-[9px] font-mono text-spinecho-slate mt-1 uppercase text-left">{a.time} {"//"} Logged</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
           <div className="glass-panel p-6 bg-[#0F1115] text-left">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 flex items-center gap-3 text-spinecho-accent">
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 flex items-center gap-3 text-spinecho-accent text-left">
               <Settings size={14} /> Metrology Integrity
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -235,7 +248,7 @@ export default function FlowmeterDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
         <div className="glass-panel p-6 bg-[#0F1115]">
-          <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 text-spinecho-accent"><MapIcon size={14} /> Connected Assets</h3>
+          <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 text-spinecho-accent text-left"><MapIcon size={14} /> Connected Assets</h3>
           <div className="space-y-2">
             {wells.map(w => (
               <button key={w.id} onClick={() => setSelectedWell(w.id)} className={`w-full text-left p-4 rounded-lg border transition-all duration-300 ${selectedWell === w.id ? 'border-spinecho-accent bg-spinecho-accent/10' : 'border-white/5 bg-white/[0.02] hover:bg-white/[0.05]'}`}>
@@ -249,8 +262,8 @@ export default function FlowmeterDashboard() {
           </div>
         </div>
 
-        <div className="lg:col-span-2 glass-panel p-6 bg-[#0F1115] relative overflow-hidden">
-          <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 text-spinecho-accent">
+        <div className="lg:col-span-2 glass-panel p-6 bg-[#0F1115] relative overflow-hidden text-left">
+          <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 text-spinecho-accent text-left">
             <Box size={14} /> Live Digital Twin
           </h3>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full">
@@ -267,8 +280,8 @@ export default function FlowmeterDashboard() {
                   <span className="text-[9px] font-mono text-white uppercase tracking-widest">Active Sensing</span>
                </div>
             </div>
-            <div className="lg:col-span-4 space-y-4">
-              <div className="p-4 rounded-lg bg-white/5 border border-white/5">
+            <div className="lg:col-span-4 space-y-4 text-left">
+              <div className="p-4 rounded-lg bg-white/5 border border-white/5 text-left">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">RF Pulse</span>
                   <span className={`text-[9px] font-mono uppercase font-bold ${pulseActive ? 'text-spinecho-accent' : 'text-white/40'}`}>{pulseActive ? 'Firing' : 'Standby'}</span>
@@ -277,17 +290,17 @@ export default function FlowmeterDashboard() {
                    <motion.div animate={{ width: pulseActive ? "100%" : "0%" }} className="h-full bg-spinecho-accent" />
                 </div>
               </div>
-              <div className="p-4 rounded-lg bg-white/5 border border-white/5">
+              <div className="p-4 rounded-lg bg-white/5 border border-white/5 text-left">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">Magnetic Field</span>
-                  <span className="text-[9px] font-mono text-green-400 font-bold uppercase">Stable</span>
+                  <span className="text-[9px] font-mono text-green-400 font-bold uppercase text-left">Stable</span>
                 </div>
                 <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-green-500/30 w-full" /></div>
               </div>
-              <div className="p-4 rounded-lg bg-white/5 border border-white/5">
-                <div className="flex justify-between items-center">
+              <div className="p-4 rounded-lg bg-white/5 border border-white/5 text-left">
+                <div className="flex justify-between items-center text-left">
                   <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">Telemetry Stream</span>
-                  <span className="text-[9px] font-mono text-white font-bold uppercase">10.2 Hz</span>
+                  <span className="text-[9px] font-mono text-white font-bold uppercase text-left">10.2 Hz</span>
                 </div>
               </div>
             </div>
@@ -296,14 +309,14 @@ export default function FlowmeterDashboard() {
       </div>
 
       <div className="glass-panel p-8 bg-[#0F1115] text-left">
-        <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-10 text-spinecho-accent font-mono">NGL Component Characterisation (C3 TO C6+)</h3>
+        <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-10 text-spinecho-accent font-mono text-left">NGL Component Characterisation (C3 TO C6+)</h3>
         <div className="h-[320px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} vertical={false} />
               <XAxis dataKey="time" fontSize={10} stroke="#475569" minTickGap={30} axisLine={false} tickLine={false} />
               <YAxis fontSize={10} stroke="#475569" axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ backgroundColor: '#0F1115', border: '1px solid rgba(255,255,255,0.1)' }} />
+              <Tooltip contentStyle={{ backgroundColor: '#0F1115', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
               <Legend iconType="rect" verticalAlign="top" align="right" wrapperStyle={{ fontSize: '10px', textTransform: 'uppercase', fontFamily: 'monospace', paddingBottom: '30px' }} />
               <Area type="monotone" dataKey="propane" name="Propane (C3)" stackId="1" stroke={THEME.propane} fill={THEME.propane} fillOpacity={0.2} strokeWidth={2} />
               <Area type="monotone" dataKey="butane" name="Butane (C4)" stackId="1" stroke={THEME.butane} fill={THEME.butane} fillOpacity={0.2} strokeWidth={2} />
@@ -314,14 +327,17 @@ export default function FlowmeterDashboard() {
         </div>
       </div>
 
-      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-mono text-spinecho-slate uppercase tracking-widest px-4 italic">
-        <div>System time: {new Date().toLocaleString()} // Ver 2.0.4c</div>
+      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-mono text-spinecho-slate uppercase tracking-widest px-4 italic text-left">
+        <div>System time: {new Date().toLocaleString()} {"//"} Ver 2.0.4c</div>
         <div>Physics based sensing {"//"} Real time molecular quantification</div>
       </div>
     </motion.div>
   );
 }
 
+// =====================
+// SCALED PREVIEW EXPORT
+// =====================
 export function DashboardPreview() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
