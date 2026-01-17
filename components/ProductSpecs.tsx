@@ -25,9 +25,7 @@ export default function ProductSpecs() {
           <h2 className="text-spinecho-accent font-mono text-sm uppercase tracking-[0.2em] mb-4 font-bold">Metrology Data</h2>
           <h3 className="text-3xl lg:text-5xl font-bold text-white tracking-tight uppercase">Technical Specification</h3>
         </div>
-
-        {/* MOBILE OPTIMIZED GRID: Stays 1 column on tiny screens, 2 on tablet+ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-20 border-t border-white/10 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-20 border-t border-white/10 mb-20 text-left">
           {generalSpecs.map((spec, index) => (
             <div key={index} className="flex justify-between py-5 border-b border-white/5 px-2">
               <span className="text-spinecho-slate text-xs md:text-sm font-medium">{spec.label}</span>
@@ -35,22 +33,16 @@ export default function ProductSpecs() {
             </div>
           ))}
         </div>
-
-        {/* APPLICATION GATED BLOCK: Adjusted for mobile padding */}
         <div className="glass-panel p-8 lg:p-16 border-white/10 bg-gradient-to-br from-spinecho-accent/5 to-transparent relative overflow-hidden">
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10 text-left">
             <div className="max-w-2xl">
               <div className="flex items-center gap-3 text-spinecho-accent mb-6 font-mono text-[10px] uppercase tracking-[0.3em] font-bold">
                 <Lock size={14} /> Application Specific Performance
               </div>
-              <h4 className="text-2xl lg:text-3xl font-bold text-white mb-6">Detailed Metrology Matrices</h4>
-              <p className="text-spinecho-slate text-sm md:text-base leading-relaxed">
-                Performance data across specific flow regimes including measurement uncertainty for wet gas and multiphase environments is shared under NDA following technical consultation.
-              </p>
+              <h4 className="text-2xl lg:text-3xl font-bold text-white mb-6 uppercase tracking-tight">Detailed Metrology Matrices</h4>
+              <p className="text-spinecho-slate text-sm md:text-base leading-relaxed">Performance data across specific flow regimes including measurement uncertainty for wet gas and multiphase environments is shared under NDA following technical consultation.</p>
             </div>
-            <button onClick={openModal} className="w-full lg:w-auto px-10 py-5 bg-spinecho-accent text-[#050608] font-black uppercase text-xs tracking-[0.2em] rounded-xl hover:bg-white transition-all shadow-xl shadow-spinecho-accent/20">
-              Request Dossier
-            </button>
+            <button onClick={openModal} className="w-full lg:w-auto px-10 py-5 bg-spinecho-accent text-[#050608] font-black uppercase text-xs tracking-[0.2em] rounded-xl hover:bg-white transition-all shadow-xl shadow-spinecho-accent/20">Request Technical Dossier {"[NDA Required]"}</button>
           </div>
         </div>
       </div>

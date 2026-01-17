@@ -11,22 +11,13 @@ import Footer from "../components/Footer";
 export default function Home() {
   return (
     <main className="bg-spinecho-dark min-h-screen">
-      {/* 1. Global Navigation */}
       <Navbar />
-
-      {/* 2. The Hook: "Evolution" Headline + "See The Physics" Trigger */}
       <Hero />
-
-      {/* 3. The Context: Industry blind spots and uncertainty */}
       <Problem />
-      
-      {/* 4. The Shift: Molecular truth vs Correlation models */}
+      {/* RESTORED ADVANTAGE WITH COMPARISON CHARTS */}
       <Advantage />
-
-      {/* 5. The Proof: Field Pilot Ready unit on pallet */}
-      <ProductionReady />
-
-      {/* 6. Global Brand Lockup */}
+      {/* PRODUCTION READY WITH FIELD PHOTO */}
+      <ProductionReady /> 
       <Footer />
     </main>
   );
