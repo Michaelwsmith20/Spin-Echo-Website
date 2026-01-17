@@ -1,3 +1,6 @@
+"use client";
+
+import React from 'react';
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Problem from "../components/Problem";
@@ -7,23 +10,23 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <main className="bg-spinecho-dark min-h-screen">
-      {/* Global Navigation */}
+    <main className="bg-spinecho-dark min-h-screen text-white font-sans overflow-x-hidden">
+      {/* 1. Global Navigation */}
       <Navbar />
 
-      {/* 1. The Hook: High level vision and brand validation */}
+      {/* 2. The Hook: "Evolution" Headline + "See The Physics" Trigger */}
       <Hero />
 
-      {/* 2. The Context: Identifying the operational blind spots in the industry */}
+      {/* 3. The Context: Industry blind spots and uncertainty */}
       <Problem />
       
-      {/* 3. The Shift: Introducing physics based sensing as the superior path */}
+      {/* 4. The Shift: Molecular truth vs Correlation models */}
       <Advantage />
 
-      {/* 4. The Proof: Current readiness and call to action for pilot partners */}
+      {/* 5. The Proof: Field Pilot Ready unit on pallet */}
       <ProductionReady />
 
-      {/* Global Footer */}
+      {/* 6. Global Brand Lockup */}
       <Footer />
     </main>
   );

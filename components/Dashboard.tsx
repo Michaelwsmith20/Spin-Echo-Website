@@ -9,9 +9,10 @@ import {
 import {
   Activity, Thermometer, Gauge, Droplets, Flame,
   AlertTriangle, Settings, Map as MapIcon, RefreshCw,
-  Download, Box, Zap
+  Download, Box
 } from "lucide-react";
 
+// Spin Echo Metrology Theme - Bright Science Cyan
 const THEME = {
   accent: "#06B6D4",
   oil: "#FFFFFF",
@@ -25,10 +26,13 @@ const THEME = {
   grid: "rgba(255,255,255,0.05)"
 };
 
-function generateSeries(days = 3) {
+// =====================
+// DATA ENGINE
+// =====================
+function generateSeries() {
   const out = [];
   const now = new Date();
-  for (let i = days * 96; i >= 0; i--) {
+  for (let i = 288; i >= 0; i--) {
     const t = new Date(now.getTime() - i * 15 * 60 * 1000);
     const base = 1200 + 150 * Math.sin(i / 12);
     const oil = Math.max(0, base + (Math.random() - 0.5) * 80);
@@ -44,7 +48,6 @@ function generateSeries(days = 3) {
 
     out.push({
       time: t.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      fullTime: t.toLocaleString(),
       oil: +oil.toFixed(1),
       gas: +gas.toFixed(1),
       water: +water.toFixed(1),
@@ -69,9 +72,9 @@ const wells = [
   { id: "SE 02C", status: "Producing", operator: "Spin Echo Test Pad", basin: "Permian" },
 ];
 
-function MetrologyKpi({ icon: Icon, label, value, unit, alert = false, small = false }) {
+function MetrologyKpi({ icon: Icon, label, value, unit, alert = false, small = false }: any) {
   return (
-    <div className={`glass-panel ${small ? 'p-4' : 'p-5'} border-white/5 bg-white/[0.02] flex flex-col justify-between h-full`}>
+    <div className={`glass-panel ${small ? 'p-4' : 'p-5'} border-white/5 bg-white/[0.02] flex flex-col justify-between h-full text-left`}>
       <div className="flex items-center gap-2 mb-3">
         <Icon size={14} className="text-spinecho-accent opacity-70" />
         <span className="text-[9px] font-mono text-spinecho-slate uppercase tracking-widest leading-none">{label}</span>
@@ -102,8 +105,8 @@ export default function FlowmeterDashboard() {
 
   const data = useMemo(() => {
     if (!hasMounted) return [];
-    return generateSeries(3);
-  }, [selectedWell, hasMounted]);
+    return generateSeries();
+  }, [hasMounted]);
 
   const latest = data.length > 0 ? data[data.length - 1] : { qTotal: 0, gas: 0, oil: 0, water: 0, ngl: 0, gvf: 0, wlr: 0, T: 0, sqi: 0 };
 
@@ -116,14 +119,14 @@ export default function FlowmeterDashboard() {
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-white pb-8">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 text-white pb-8 font-sans">
       
       {/* 1. INTERFACE TOOLBAR */}
       <div className="flex flex-wrap items-center justify-between gap-4 p-6 glass-panel border-white/10 bg-[#0F1115]">
-        <div className="flex items-center gap-6 text-left">
-          <div>
-            <h2 className="text-xl font-bold tracking-tight">Operator Interface</h2>
-            <p className="text-[9px] font-mono text-spinecho-slate uppercase tracking-[0.2em] mt-1">Spin Echo Metrology Systems // Build 2.0.4</p>
+        <div className="flex items-center gap-6">
+          <div className="text-left">
+            <h2 className="text-xl font-bold tracking-tight text-white">Operator Interface</h2>
+            <p className="text-[9px] font-mono text-spinecho-slate uppercase tracking-[0.2em] mt-1">Spin Echo Metrology Systems {"//"} Build 2.0.4</p>
           </div>
           <div className="h-8 w-px bg-white/10 hidden md:block" />
           <select value={selectedWell} onChange={(e) => setSelectedWell(e.target.value)} className="bg-white/5 border border-white/10 rounded px-4 py-2 text-xs font-mono outline-none focus:border-spinecho-accent text-white">
@@ -133,12 +136,12 @@ export default function FlowmeterDashboard() {
         
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded border border-white/5">
-            <span className="text-[10px] font-mono text-spinecho-slate uppercase">Stacked View</span>
+            <span className="text-[10px] font-mono text-spinecho-slate uppercase tracking-widest leading-none">Stacked View</span>
             <button onClick={() => setIsStacked(!isStacked)} className={`w-10 h-5 rounded-full relative transition-colors ${isStacked ? 'bg-spinecho-accent' : 'bg-white/10'}`}>
               <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${isStacked ? 'right-1' : 'left-1'}`} />
             </button>
           </div>
-          <button className="flex items-center gap-2 px-6 py-2.5 bg-spinecho-accent text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-lg shadow-lg shadow-spinecho-accent/20">
+          <button className="flex items-center gap-2 px-6 py-2.5 bg-spinecho-accent text-[#050608] font-black uppercase text-[10px] tracking-[0.2em] rounded-lg shadow-lg shadow-spinecho-accent/20 hover:bg-white transition-all duration-300">
             <Download size={14} /> Export Data
           </button>
         </div>
@@ -159,7 +162,7 @@ export default function FlowmeterDashboard() {
       {/* 3. MAIN ANALYTICS ROW */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 text-left">
         
-        <div className="xl:col-span-2 glass-panel p-8 bg-[#0F1115]">
+        <div className="xl:col-span-2 glass-panel p-8 bg-[#0F1115] border-white/5 shadow-2xl">
           <div className="flex justify-between items-center mb-10">
             <h3 className="font-bold text-xs uppercase tracking-[0.2em] text-spinecho-accent">Phase Resolved Flow Dynamics</h3>
             <div className="flex gap-4 text-[9px] font-mono uppercase text-spinecho-slate">
@@ -177,9 +180,10 @@ export default function FlowmeterDashboard() {
                   <XAxis dataKey="time" fontSize={10} stroke="#475569" minTickGap={30} axisLine={false} tickLine={false} />
                   <YAxis fontSize={10} stroke="#475569" axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={{ backgroundColor: '#0F1115', border: '1px solid rgba(255,255,255,0.1)' }} />
-                  <Area type="monotone" dataKey="oil" stackId="1" stroke={THEME.oil} fill={THEME.oil} fillOpacity={0.1} />
-                  <Area type="monotone" dataKey="water" stackId="1" stroke={THEME.water} fill={THEME.water} fillOpacity={0.1} />
-                  <Area type="monotone" dataKey="gas" stackId="1" stroke={THEME.gas} fill={THEME.gas} fillOpacity={0.1} />
+                  <Area type="monotone" dataKey="oil" stackId="1" stroke={THEME.oil} fill={THEME.oil} fillOpacity={0.1} strokeWidth={2} />
+                  <Area type="monotone" dataKey="water" stackId="1" stroke={THEME.water} fill={THEME.water} fillOpacity={0.1} strokeWidth={2} />
+                  <Area type="monotone" dataKey="gas" stackId="1" stroke={THEME.gas} fill={THEME.gas} fillOpacity={0.1} strokeWidth={2} />
+                  <Brush height={20} fill="#0A0C10" stroke="rgba(255,255,255,0.1)" />
                 </AreaChart>
               ) : (
                 <LineChart data={data}>
@@ -187,33 +191,33 @@ export default function FlowmeterDashboard() {
                   <XAxis dataKey="time" fontSize={10} stroke="#475569" minTickGap={30} axisLine={false} tickLine={false} />
                   <YAxis fontSize={10} stroke="#475569" axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={{ backgroundColor: '#0F1115', border: '1px solid rgba(255,255,255,0.1)' }} />
-                  <Line type="monotone" dataKey="oil" stroke={THEME.oil} dot={false} strokeWidth={2} />
-                  <Line type="monotone" dataKey="water" stroke={THEME.water} dot={false} strokeWidth={2} />
-                  <Line type="monotone" dataKey="gas" stroke={THEME.gas} dot={false} strokeWidth={2} />
+                  <Line type="monotone" dataKey="oil" stroke={THEME.oil} dot={false} strokeWidth={2.5} />
+                  <Line type="monotone" dataKey="water" stroke={THEME.water} dot={false} strokeWidth={2.5} />
+                  <Line type="monotone" dataKey="gas" stroke={THEME.gas} dot={false} strokeWidth={2.5} />
+                  <Brush height={20} fill="#0A0C10" stroke="rgba(255,255,255,0.1)" />
                 </LineChart>
               )}
             </ResponsiveContainer>
           </div>
 
-          {/* FIXED GVF CHART WITH AXIS LABELS */}
-          <div className="h-[200px] mt-12 pt-10 border-t border-white/5">
+          <div className="h-[200px] mt-12 pt-10 border-t border-white/5 text-left">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} vertical={false} />
                 <XAxis dataKey="time" hide />
                 <YAxis domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} tickFormatter={(val) => `${val * 100}%`} fontSize={10} stroke="#475569" axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ backgroundColor: '#0F1115', border: '1px solid rgba(255,255,255,0.1)' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#0F1115', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
                 <Legend iconType="circle" align="right" verticalAlign="top" wrapperStyle={{ fontSize: '10px', textTransform: 'uppercase', fontFamily: 'monospace', paddingBottom: '20px' }} />
                 <Line type="monotone" dataKey="gvf" name="GVF %" stroke={THEME.accent} dot={false} strokeWidth={2} />
                 <Line type="monotone" dataKey="wlr" name="WLR %" stroke={THEME.water} dot={false} strokeWidth={2} />
-                <ReferenceLine y={0.8} label={{ value: 'GVF LIMIT', position: 'insideTopRight', fill: '#ef4444', fontSize: 9, fontWeight: 'bold' }} stroke="#ef4444" strokeDasharray="5 5" />
+                <ReferenceLine y={0.8} label={{ value: 'GVF LIMIT', position: 'insideTopRight', fill: '#ef4444', fontSize: 9, fontWeight: 'bold', fontFamily: 'monospace' }} stroke="#ef4444" strokeDasharray="5 5" />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         <div className="space-y-6">
-          <div className="glass-panel p-6 bg-[#0F1115] text-left h-fit">
+          <div className="glass-panel p-6 bg-[#0F1115] text-left h-fit border-white/5">
             <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
               <AlertTriangle size={14} className="text-yellow-500" /> Operational Alerts
             </h3>
@@ -222,18 +226,17 @@ export default function FlowmeterDashboard() {
                 { level: "High", msg: "Sudden GVF step change (>15%)", time: "14:35" },
                 { level: "Medium", msg: "Sensor drift detected on T probe", time: "09:10" }
               ].map((a, i) => (
-                <div key={i} className="p-4 bg-white/[0.02] border border-white/5 rounded-lg flex justify-between items-start">
+                <div key={i} className="p-4 bg-white/[0.02] border border-white/5 rounded-lg flex justify-between items-start text-left">
                   <div>
-                    <span className={`text-[8px] font-mono px-2 py-0.5 rounded uppercase ${a.level === 'High' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}`}>{a.level}</span>
+                    <span className={`text-[8px] font-mono px-2 py-0.5 rounded uppercase tracking-widest ${a.level === 'High' ? 'bg-red-500/20 text-red-400 border border-red-500/20' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/20'}`}>{a.level}</span>
                     <p className="text-xs mt-3 text-white font-medium">{a.msg}</p>
-                    <p className="text-[9px] font-mono text-spinecho-slate mt-1 uppercase">{a.time} // Logged</p>
+                    <p className="text-[9px] font-mono text-spinecho-slate mt-1 uppercase text-left">{a.time} {"//"} Logged</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          <div className="glass-panel p-6 bg-[#0F1115] text-left">
+          <div className="glass-panel p-6 bg-[#0F1115] text-left border-white/5">
             <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 flex items-center gap-3 text-spinecho-accent">
               <Settings size={14} /> Metrology Integrity
             </h3>
@@ -247,9 +250,9 @@ export default function FlowmeterDashboard() {
         </div>
       </div>
 
-      {/* 4. ASSET / DIGITAL TWIN ROW */}
+      {/* 4. ASSET / DIGITAL TWIN ROW (FULL WIDTH TWIN) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-        <div className="glass-panel p-6 bg-[#0F1115]">
+        <div className="glass-panel p-6 bg-[#0F1115] border-white/5">
           <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 text-spinecho-accent"><MapIcon size={14} /> Connected Assets</h3>
           <div className="space-y-2">
             {wells.map(w => (
@@ -264,54 +267,59 @@ export default function FlowmeterDashboard() {
           </div>
         </div>
 
-        {/* EXPANDED DIGITAL TWIN VISUAL */}
-        <div className="lg:col-span-2 glass-panel p-6 bg-[#0F1115] relative overflow-hidden">
+        {/* REFINED DIGITAL TWIN - USING THE NEW CYAN IMAGE */}
+        <div className="lg:col-span-2 glass-panel p-6 bg-[#0F1115] relative overflow-hidden border-white/5 group">
           <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 text-spinecho-accent">
             <Box size={14} /> Live Digital Twin
           </h3>
-          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full">
-            {/* Expanded Visualization Section */}
-            <div className="lg:col-span-8 relative h-72 lg:h-80 rounded-xl border border-white/5 bg-black flex items-center justify-center overflow-hidden">
+            <div className="lg:col-span-8 relative h-72 lg:h-96 rounded-xl border border-white/5 bg-black flex items-center justify-center overflow-hidden">
+               {/* THE NEW CYAN HARDWARE MODEL */}
                <img 
-                 src="https://i.postimg.cc/K8w83Fbz/digitaltwin.png" 
+                 src="https://i.postimg.cc/FsYRWJXY/digitaltwin.png" 
                  alt="Hardware Twin" 
-                 className="w-full h-full object-cover opacity-90 brightness-110" 
+                 className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105" 
                />
+               
+               {/* Live Operational Pulses */}
                <AnimatePresence>
                  {pulseActive && (
-                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.3 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-spinecho-accent/30 blur-3xl pointer-events-none" />
+                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.25 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-spinecho-accent/40 blur-3xl pointer-events-none" />
                  )}
                </AnimatePresence>
+
+               {/* Scanning Logic */}
                <div className="absolute top-0 left-0 w-full h-px bg-spinecho-accent/40 shadow-[0_0_15px_#06B6D4] animate-[scan_4s_linear_infinite]" />
-               <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1 bg-black/80 rounded-full border border-white/10">
+               
+               {/* Active Sensing Tag */}
+               <div className="absolute bottom-6 left-6 flex items-center gap-2 px-3 py-1.5 bg-black/80 rounded-full border border-white/10 shadow-2xl">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                  <span className="text-[9px] font-mono text-white uppercase tracking-widest">Active Sensing</span>
+                  <span className="text-[9px] font-mono text-white uppercase tracking-widest font-bold">Active Sensing</span>
                </div>
             </div>
 
-            {/* Status Section */}
-            <div className="lg:col-span-4 space-y-4">
-              <div className="p-4 rounded-lg bg-white/5 border border-white/5">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">RF Pulse</span>
-                  <span className={`text-[9px] font-mono uppercase font-bold ${pulseActive ? 'text-spinecho-accent' : 'text-white/20'}`}>{pulseActive ? 'Firing' : 'Standby'}</span>
+            {/* Live Telemetry Panels */}
+            <div className="lg:col-span-4 space-y-4 text-left pr-4">
+              <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                <div className="flex justify-between items-center mb-1 text-left">
+                  <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">NMR Pulse Cycle</span>
+                  <span className={`text-[9px] font-mono uppercase font-bold ${pulseActive ? 'text-spinecho-accent' : 'text-white/20'}`}>{pulseActive ? 'Exciting' : 'Relaxing'}</span>
                 </div>
                 <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
                    <motion.div animate={{ width: pulseActive ? "100%" : "0%" }} className="h-full bg-spinecho-accent" />
                 </div>
               </div>
-              <div className="p-4 rounded-lg bg-white/5 border border-white/5">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">Magnetic Field</span>
-                  <span className="text-[9px] font-mono text-green-400 font-bold uppercase">Stable</span>
+              <div className="p-4 rounded-xl bg-white/5 border border-white/5">
+                <div className="flex justify-between items-center mb-1 text-left">
+                  <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">Bore Integrity</span>
+                  <span className={`text-[9px] font-mono text-green-400 font-bold uppercase text-left`}>Verified</span>
                 </div>
                 <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-green-500/30 w-full" /></div>
               </div>
-              <div className="p-4 rounded-lg bg-white/5 border border-white/5">
-                <div className="flex justify-between items-center">
-                  <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">Telemetry Stream</span>
-                  <span className="text-[9px] font-mono text-white font-bold uppercase">10.2 Hz</span>
+              <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-left">
+                <div className="flex justify-between items-center text-left">
+                  <span className="text-[8px] font-mono text-spinecho-slate uppercase tracking-widest">Sampling Rate</span>
+                  <span className="text-[9px] font-mono text-white font-bold uppercase text-left tracking-tighter">10.25 Hz</span>
                 </div>
               </div>
             </div>
@@ -319,9 +327,9 @@ export default function FlowmeterDashboard() {
         </div>
       </div>
 
-      {/* 5. RESTORED NGL BREAKDOWN CHART */}
-      <div className="glass-panel p-8 bg-[#0F1115] text-left">
-        <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-10 text-spinecho-accent font-mono">NGL Component Characterisation (C3 TO C6+)</h3>
+      {/* 5. NGL BREAKDOWN CHART */}
+      <div className="glass-panel p-8 bg-[#0F1115] text-left border-white/5 shadow-2xl">
+        <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-10 text-spinecho-accent font-mono text-left">NGL Component Characterisation (C3 TO C6+)</h3>
         <div className="h-[320px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
@@ -334,21 +342,24 @@ export default function FlowmeterDashboard() {
               <Area type="monotone" dataKey="butane" name="Butane (C4)" stackId="1" stroke={THEME.butane} fill={THEME.butane} fillOpacity={0.2} strokeWidth={2} />
               <Area type="monotone" dataKey="pentane" name="Pentane (C5)" stackId="1" stroke={THEME.pentane} fill={THEME.pentane} fillOpacity={0.2} strokeWidth={2} />
               <Area type="monotone" dataKey="hexane" name="Hexane (C6+)" stackId="1" stroke={THEME.hexane} fill={THEME.hexane} fillOpacity={0.2} strokeWidth={2} />
+              <Brush height={20} fill="#0A0C10" stroke="rgba(255,255,255,0.1)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* FOOTER */}
-      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-mono text-spinecho-slate uppercase tracking-widest px-4 italic">
-        <div>System time: {new Date().toLocaleString()} // Ver 2.0.4c</div>
-        <div>Physics based sensing // Real time molecular quantification</div>
+      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-mono text-spinecho-slate uppercase tracking-widest px-4 italic text-left opacity-60">
+        <div>System time: {new Date().toLocaleString()} {"//"} Ver 2.0.4c</div>
+        <div>Physics based sensing {"//"} Real time molecular quantification</div>
       </div>
     </motion.div>
   );
 }
 
+// =====================
 // SCALED PREVIEW EXPORT
+// =====================
 export function DashboardPreview() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
