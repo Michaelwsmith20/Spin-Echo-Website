@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { useBooking } from '../../context/BookingContext';
-import { ChevronRight, TrendingUp, Anchor, Truck, Layers } from 'lucide-react';
+import { ChevronRight, TrendingUp, Anchor, Truck, Cpu } from 'lucide-react';
 
 export default function OpportunitiesPage() {
   const { openModal } = useBooking();
@@ -38,16 +38,25 @@ export default function OpportunitiesPage() {
       approach: "Spin Echo offers a partnership model for onshore well measurement service providers looking to replace separation units with high fidelity NMR flow meters.",
       value: "Enables a more scalable service model with rapid deployment and continuous phase resolved data streams.",
       icon: <Truck size={20} />
+    },
+    {
+      title: "Software Integration",
+      tag: "Optimization Ecosystem",
+      challenge: "Enabling wellhead optimization software to achieve superior performance through higher quality data inputs.",
+      whyHard: "Optimization models and control strategies are frequently limited by the noise, latency, and uncertainty inherent in legacy inferred measurement data.",
+      approach: "We are seeking technical partnerships with wellhead optimization software providers to integrate our high frequency, phase resolved data streams directly into their platforms.",
+      value: "By providing physics based truth at the source, we enable software partners to deliver more accurate models and stable control logic. Better data enables better decisions.",
+      icon: <Cpu size={20} />
     }
   ];
 
   return (
-    <main className="bg-spinecho-dark min-h-screen text-white">
+    <main className="bg-spinecho-dark min-h-screen text-white font-sans overflow-x-hidden text-left">
       <Navbar />
 
       {/* Hero Section */}
       <section className="pt-48 pb-20 px-6 bg-gradient-to-b from-spinecho-accent/5 to-transparent">
-        <div className="max-w-7xl mx-auto text-left">
+        <div className="max-w-7xl mx-auto">
           <div className="inline-block px-3 py-1 mb-8 border border-spinecho-accent/30 bg-spinecho-accent/5 rounded-full">
             <span className="text-xs font-mono text-spinecho-accent uppercase tracking-[0.2em]">Strategic Engagement</span>
           </div>
@@ -57,7 +66,7 @@ export default function OpportunitiesPage() {
           </h1>
           <p className="text-xl lg:text-2xl text-spinecho-slate max-w-2xl leading-relaxed">
             We are identifying strategic partners to scale production, expand into offshore 
-            territories, and modernize wellhead measurement services.
+            territories, and integrate with modern wellhead optimization software.
           </p>
         </div>
       </section>
@@ -65,9 +74,9 @@ export default function OpportunitiesPage() {
       {/* Strategic Selection Console */}
       <section className="py-24 px-6 border-t border-white/5 bg-[#050608]">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
             
-            {/* Left Menu */}
+            {/* Left Menu - Selection Column */}
             <div className="lg:col-span-5 space-y-4">
               <h3 className="text-spinecho-slate font-mono text-[10px] uppercase tracking-[0.4em] mb-8 px-4 font-bold">Engagement Tracks</h3>
               {streams.map((s, index) => (
@@ -95,7 +104,7 @@ export default function OpportunitiesPage() {
               ))}
             </div>
 
-            {/* Right Detail Panel */}
+            {/* Right Detail Panel - Information Column */}
             <div className="lg:col-span-7">
               <AnimatePresence mode="wait">
                 <motion.div 
@@ -103,7 +112,8 @@ export default function OpportunitiesPage() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="glass-panel p-8 lg:p-16 border-white/10 bg-[#0F1115] shadow-2xl relative overflow-hidden text-left min-h-[600px] flex flex-col"
+                  transition={{ duration: 0.4 }}
+                  className="glass-panel p-8 lg:p-16 border-white/10 bg-[#0F1115] shadow-2xl relative overflow-hidden text-left h-full flex flex-col"
                 >
                   <div className="absolute top-0 right-0 bg-spinecho-accent/10 text-spinecho-accent px-6 py-2 text-[10px] font-mono uppercase tracking-[0.3em] rounded-bl-xl border-l border-b border-spinecho-accent/20">
                     {streams[activeIndex].tag}
@@ -112,23 +122,25 @@ export default function OpportunitiesPage() {
                   <div className="space-y-12 flex-grow">
                     <div>
                       <h4 className="text-spinecho-accent font-bold uppercase text-[10px] tracking-widest mb-4">Strategic Objective</h4>
-                      <p className="text-white text-2xl font-bold tracking-tight leading-snug">{streams[activeIndex].challenge}</p>
+                      <p className="text-white text-2xl lg:text-3xl font-bold tracking-tight leading-snug">{streams[activeIndex].challenge}</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                       <div>
-                        <h4 className="text-white/40 font-bold uppercase text-[10px] tracking-widest mb-4 font-mono">// Context</h4>
+                        <h4 className="text-white/40 font-bold uppercase text-[10px] tracking-widest mb-4 font-mono">{"//"} Context</h4>
                         <p className="text-spinecho-slate text-sm leading-relaxed">{streams[activeIndex].whyHard}</p>
                       </div>
                       <div>
-                        <h4 className="text-white/40 font-bold uppercase text-[10px] tracking-widest mb-4 font-mono">// Pathway</h4>
+                        <h4 className="text-white/40 font-bold uppercase text-[10px] tracking-widest mb-4 font-mono">{"//"} Pathway</h4>
                         <p className="text-spinecho-slate text-sm leading-relaxed">{streams[activeIndex].approach}</p>
                       </div>
                     </div>
 
                     <div className="p-8 bg-white/[0.02] border border-white/10 rounded-2xl">
                       <h4 className="text-spinecho-accent font-bold uppercase text-[10px] tracking-widest mb-4">Partnership Value</h4>
-                      <p className="text-white text-lg leading-relaxed italic">"{streams[activeIndex].value}"</p>
+                      <p className="text-white text-lg leading-relaxed italic">
+                        &ldquo;{streams[activeIndex].value}&rdquo;
+                      </p>
                     </div>
                   </div>
 

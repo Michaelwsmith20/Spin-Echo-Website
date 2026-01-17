@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <main className="bg-spinecho-dark min-h-screen text-white font-sans overflow-x-hidden">
+    <main className="bg-spinecho-dark min-h-screen">
       {/* 1. Global Navigation */}
       <Navbar />
 
