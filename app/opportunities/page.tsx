@@ -25,7 +25,7 @@ export default function OpportunitiesPage() {
         <div className="max-w-7xl mx-auto">
           <div className="inline-block px-3 py-1 mb-8 border border-spinecho-accent/30 bg-spinecho-accent/5 rounded-full"><span className="text-xs font-mono text-spinecho-accent uppercase tracking-[0.2em]">Strategic Engagement</span></div>
           <h1 className="text-5xl lg:text-8xl font-bold text-white mb-8 tracking-tight leading-[1.05]">Scale & <br /><span className="text-spinecho-accent">Partnership.</span></h1>
-          <p className="text-xl lg:text-2xl text-spinecho-slate max-w-2xl leading-relaxed">We are identifying strategic partners to scale production and expand into offshore territories.</p>
+          <p className="text-xl lg:text-2xl text-spinecho-slate max-w-2xl leading-relaxed">We are identifying strategic partners to scale production and expand into new service offerings, use cases and territories.</p>
         </div>
       </section>
       <section className="py-24 px-6 border-t border-white/5 bg-[#050608]">
